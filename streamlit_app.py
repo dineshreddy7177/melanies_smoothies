@@ -1,7 +1,7 @@
 import streamlit as st
 import snowflake.connector
 import pandas as pd
-
+import requests  
 st.title(":cup_with_straw: Customize your Smoothie! :cup_with_straw:")
 st.write("Choose the fruits you want in your custom Smoothie!")
 
@@ -35,13 +35,4 @@ if ingredients_list:
         ingredients_string += fruit_chosen + ' '
         smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")  
         sf_df = st.dataframe(smoothiefroot_response.json(), use_container_width=True)
-    my_insert_stmt = """INSERT INTO smoothies.public.orders(ingredients, name_on_order)
-        VALUES ('""" + ingredients_string + """','""" + name_on_order + """')"""
-
-    time_to_insert = st.button('Submit Order')
-    if time_to_insert:
-        cur.execute(my_insert_stmt)
-        conn.commit()
-        st.success('Your Smoothie is ordered!', icon="✅")
-import requests  
-
+    
